@@ -1,0 +1,2 @@
+"use strict";var e=require("react");exports.createStore=function(t){let r;const c=new Set,s=(e,t)=>{const s="function"==typeof e?e(r):e;(t?s!==r:Object.keys(s).some(e=>r[e]!==s[e]))&&(r=t?s:{...r,...s},c.forEach(e=>e()))},n=()=>r,o=e=>(c.add(e),()=>c.delete(e));r=t(s,n);const a=(t=e=>e)=>e.useSyncExternalStore(o,()=>t(n()),()=>t(n()));return a.getState=n,a.setState=s,a.subscribe=o,a};
+//# sourceMappingURL=index.cjs.map

@@ -1,0 +1,15 @@
+{
+  "name": "@justen/vue",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "browser": "dist/index.iife.js",
+  "type": "module",
+  "version": "0.1.0",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.js"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  }
+}

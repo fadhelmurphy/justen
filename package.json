@@ -1,0 +1,27 @@
+{
+  "name": "justen",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "rollup --config rollup.config.js --bundleConfigAsCjs=false",
+    "version": "changeset version",
+    "release": "changeset publish",
+    "changeset": "changeset"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "changesets": "^2.x",
+    "rollup": "^4.x",
+    "rollup-plugin-dts": "^6.x"
+  },
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}

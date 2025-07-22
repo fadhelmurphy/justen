@@ -1,0 +1,2 @@
+import{ref as t,onUnmounted as e}from"vue";function s(s){const n=function(t){let e={};const s=new Set,n=()=>e,r=t=>{const n="function"==typeof t?t(e):t;e={...e,...n},s.forEach(t=>t())};e=t(r,n);return{getState:n,setState:r,subscribe:t=>(s.add(t),()=>s.delete(t))}}(s),r=(s=t=>t)=>{const r=t(s(n.getState())),c=n.subscribe(()=>{r.value=s(n.getState())});return e(()=>{c()}),r};return r.getState=n.getState,r.setState=n.setState,r.subscribe=n.subscribe,r}export{s as createStore};
+//# sourceMappingURL=index.js.map

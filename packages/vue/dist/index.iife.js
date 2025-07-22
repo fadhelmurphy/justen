@@ -1,0 +1,2 @@
+var JustenStore_vue=function(t,e){"use strict";return t.createStore=function(t){const n=function(t){let e={};const n=new Set,r=()=>e,s=t=>{const r="function"==typeof t?t(e):t;e={...e,...r},n.forEach(t=>t())};e=t(s,r);return{getState:r,setState:s,subscribe:t=>(n.add(t),()=>n.delete(t))}}(t),r=(t=t=>t)=>{const r=e.ref(t(n.getState())),s=n.subscribe(()=>{r.value=t(n.getState())});return e.onUnmounted(()=>{s()}),r};return r.getState=n.getState,r.setState=n.setState,r.subscribe=n.subscribe,r},t}({},Vue);
+//# sourceMappingURL=index.iife.js.map
