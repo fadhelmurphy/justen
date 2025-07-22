@@ -4,15 +4,18 @@
   "workspaces": [
     "packages/*"
   ],
-  "scripts": {
-    "build": "rollup --config rollup.config.js --bundleConfigAsCjs=false",
-    "version": "changeset version",
-    "release": "changeset publish",
-    "changeset": "changeset"
-  },
+"scripts": {
+  "build": "rollup -c=rollup.config.js --bundleConfigAsCjs",
+  "watch": "rollup -w -c=rollup.config.js --bundleConfigAsCjs",
+  "single": "yarn workspace @justen/$FOLDER build",
+  "single:watch": "yarn workspace @justen/$FOLDER watch",
+  "version": "changeset version",
+  "release": "changeset publish",
+  "changeset": "changeset"
+},
   "devDependencies": {
+    "@changesets/cli": "^2.29.5",
     "@rollup/plugin-terser": "^0.4.4",
-    "changesets": "^2.x",
     "rollup": "^4.x",
     "rollup-plugin-dts": "^6.x"
   },

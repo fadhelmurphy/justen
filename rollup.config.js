@@ -1,40 +1,51 @@
+// rollup.config.cjs
 import terser from "@rollup/plugin-terser";
-import { readdirSync } from "fs";
+import { readdirSync, existsSync, mkdirSync } from "fs";
 import path from "path";
 
-const packagesDir = path.resolve("./packages");
+const folder = process.env.FOLDER;
+const packagePath = path.resolve();
 
-const packages = readdirSync(packagesDir, { withFileTypes: true })
-  .filter((dirent) => dirent.isDirectory())
-  .map((dirent) => {
-    const packageName = dirent.name;
-    const packagePath = path.join(packagesDir, packageName);
-    const files = readdirSync(packagePath);
-    const entryFile = files.find((f) => f.endsWith(".js") || f.endsWith(".ts"));
-    return {
-      name: packageName,
-      input: path.join("packages", packageName, entryFile),
-    };
-  })
-  .filter((pkg) => pkg.input);
+if (!folder) {
+  throw new Error('Environment variable "FOLDER" is not set.\nUsage: FOLDER=react yarn single');
+}
 
-export default packages.map(({ name, input }) => ({
+if (!existsSync(packagePath)) {
+  throw new Error(`Package folder "${packagePath}" does not exist in ./packages`);
+}
+
+const entryFile =
+  readdirSync(packagePath).find((f) => f === "index.ts") ||
+  readdirSync(packagePath).find((f) => f === "index.js");
+
+if (!entryFile) {
+  throw new Error(`No entry file (index.ts or index.js) found in package "${packagePath}"`);
+}
+
+const input = path.join(packagePath, entryFile);
+const distDir = path.join(packagePath, "dist");
+
+if (!existsSync(distDir)) {
+  mkdirSync(distDir);
+}
+
+export default {
   input,
   output: [
     {
-      file: `packages/${name}/dist/index.js`,
+      file: path.join(distDir, "index.js"),
       format: "esm",
       sourcemap: true,
     },
     {
-      file: `packages/${name}/dist/index.cjs`,
+      file: path.join(distDir, "index.cjs"),
       format: "cjs",
       sourcemap: true,
     },
     {
-      file: `packages/${name}/dist/index.iife.js`,
+      file: path.join(distDir, "index.iife.js"),
       format: "iife",
-      name: `JustenStore_${name}`,
+      name: `JustenStore_${folder}`,
       globals: {
         react: "React",
         "react-dom": "ReactDOM",
@@ -43,6 +54,6 @@ export default packages.map(({ name, input }) => ({
       sourcemap: true,
     },
   ],
-  external: (id) => id !== 'react' && id !== 'react-dom' && id !== 'vue',
+  external: (id) => ["react", "react-dom", "vue"].includes(id),
   plugins: [terser()],
-}));
+};
