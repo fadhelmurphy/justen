@@ -1,2 +1,0 @@
-var JustenStore_react=function(t,e){"use strict";return t.createStore=function(t){let n;const c=new Set,r=(t,e)=>{const r="function"==typeof t?t(n):t;(e?r!==n:Object.keys(r).some(t=>n[t]!==r[t]))&&(n=e?r:{...n,...r},c.forEach(t=>t()))},o=()=>n,s=t=>(c.add(t),()=>c.delete(t));n=t(r,o);const a=(t=t=>t)=>e.useSyncExternalStore(s,()=>t(o()),()=>t(o()));return a.getState=o,a.setState=r,a.subscribe=s,a},t}({},React);
-//# sourceMappingURL=index.iife.js.map

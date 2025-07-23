@@ -1,2 +1,0 @@
-"use strict";var t=require("vue");exports.createStore=function(e){const r=function(t){let e={};const r=new Set,s=()=>e,n=t=>{const s="function"==typeof t?t(e):t;e={...e,...s},r.forEach(t=>t())};e=t(n,s);return{getState:s,setState:n,subscribe:t=>(r.add(t),()=>r.delete(t))}}(e),s=(e=t=>t)=>{const s=t.ref(e(r.getState())),n=r.subscribe(()=>{s.value=e(r.getState())});return t.onUnmounted(()=>{n()}),s};return s.getState=r.getState,s.setState=r.setState,s.subscribe=r.subscribe,s};
-//# sourceMappingURL=index.cjs.map

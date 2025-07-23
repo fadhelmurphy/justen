@@ -17,8 +17,7 @@
     "@changesets/cli": "^2.29.5",
     "@rollup/plugin-terser": "^0.4.4",
     "cross-env": "^7.0.3",
-    "rollup": "^4.0.0",
-    "rollup-plugin-dts": "^6.0.0"
+    "rollup": "^4.0.0"
   },
   "version": "1.0.0",
   "main": "index.js",

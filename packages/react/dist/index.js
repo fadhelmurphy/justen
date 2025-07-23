@@ -1,2 +1,0 @@
-import{useSyncExternalStore as t}from"react";function e(e){let o;const c=new Set,n=(t,e)=>{const n="function"==typeof t?t(o):t;(e?n!==o:Object.keys(n).some(t=>o[t]!==n[t]))&&(o=e?n:{...o,...n},c.forEach(t=>t()))},r=()=>o,s=t=>(c.add(t),()=>c.delete(t));o=e(n,r);const a=(e=t=>t)=>t(s,()=>e(r()),()=>e(r()));return a.getState=r,a.setState=n,a.subscribe=s,a}export{e as createStore};
-//# sourceMappingURL=index.js.map
