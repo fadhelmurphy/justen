@@ -1,59 +1,74 @@
-// rollup.config.cjs
 import terser from "@rollup/plugin-terser";
-import { readdirSync, existsSync, mkdirSync } from "fs";
+import { readdirSync, existsSync, mkdirSync, statSync } from "fs";
 import path from "path";
 
+const rootPackagesDir = path.resolve("./packages");
 const folder = process.env.FOLDER;
-const packagePath = path.resolve();
 
-if (!folder) {
-  throw new Error('Environment variable "FOLDER" is not set.\nUsage: FOLDER=react yarn single');
+function getEntryFile(packagePath) {
+  const files = readdirSync(packagePath);
+  return files.find((f) => f === "index.ts") || files.find((f) => f === "index.js");
 }
 
-if (!existsSync(packagePath)) {
-  throw new Error(`Package folder "${packagePath}" does not exist in ./packages`);
-}
+function createConfig(packageName) {
+  const packagePath = path.join(rootPackagesDir, packageName);
 
-const entryFile =
-  readdirSync(packagePath).find((f) => f === "index.ts") ||
-  readdirSync(packagePath).find((f) => f === "index.js");
+  if (!existsSync(packagePath)) {
+    throw new Error(`Package folder "${packagePath}" does not exist.`);
+  }
 
-if (!entryFile) {
-  throw new Error(`No entry file (index.ts or index.js) found in package "${packagePath}"`);
-}
+  const entryFile = getEntryFile(packagePath);
+  if (!entryFile) {
+    throw new Error(`No entry file (index.ts or index.js) found in "${packagePath}".`);
+  }
 
-const input = path.join(packagePath, entryFile);
-const distDir = path.join(packagePath, "dist");
+  const input = path.join(packagePath, entryFile);
+  const distDir = path.join(packagePath, "dist");
+  if (!existsSync(distDir)) {
+    mkdirSync(distDir);
+  }
 
-if (!existsSync(distDir)) {
-  mkdirSync(distDir);
-}
-
-export default {
-  input,
-  output: [
-    {
-      file: path.join(distDir, "index.js"),
-      format: "esm",
-      sourcemap: true,
-    },
-    {
-      file: path.join(distDir, "index.cjs"),
-      format: "cjs",
-      sourcemap: true,
-    },
-    {
-      file: path.join(distDir, "index.iife.js"),
-      format: "iife",
-      name: `JustenStore_${folder}`,
-      globals: {
-        react: "React",
-        "react-dom": "ReactDOM",
-        vue: "Vue",
+  return {
+    input,
+    output: [
+      {
+        file: path.join(distDir, "index.js"),
+        format: "esm",
+        sourcemap: true,
       },
-      sourcemap: true,
-    },
-  ],
-  external: (id) => ["react", "react-dom", "vue"].includes(id),
-  plugins: [terser()],
-};
+      {
+        file: path.join(distDir, "index.cjs"),
+        format: "cjs",
+        sourcemap: true,
+      },
+      {
+        file: path.join(distDir, "index.iife.js"),
+        format: "iife",
+        name: `JustenStore_${packageName.replace(/[^a-zA-Z0-9]/g, "_")}`,
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+          vue: "Vue",
+        },
+        sourcemap: true,
+      },
+    ],
+    external: ["react", "react-dom", "vue"],
+    plugins: [terser()],
+  };
+}
+
+let exporter = null
+
+if (folder) {
+  exporter =createConfig(folder);
+} else {
+  const packageDirs = readdirSync(rootPackagesDir).filter((dir) => {
+    const fullPath = path.join(rootPackagesDir, dir);
+    return statSync(fullPath).isDirectory() && getEntryFile(fullPath);
+  });
+
+  exporter = packageDirs.map(createConfig);
+}
+
+export default exporter
