@@ -5,12 +5,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build:all": "rollup -c=rollup.config.js --bundleConfigAsCjs",
-    "watch:all": "rollup -w -c=rollup.config.js --bundleConfigAsCjs",
-    "single:win": "cross-env-shell \"bash -c 'yarn workspace @justen/$FOLDER build'\"",
-    "single:win:watch": "cross-env-shell \"bash -c 'yarn workspace @justen/$FOLDER watch'\"",
-    "single": "bash -c 'yarn workspace @justen/$FOLDER build'",
-    "single:watch": "bash -c 'yarn workspace @justen/$FOLDER watch'",
+    "build": "rollup -c=rollup.config.js --bundleConfigAsCjs",
+    "watch": "rollup -w -c=rollup.config.js --bundleConfigAsCjs",
     "version": "changeset version",
     "release": "changeset publish",
     "changeset": "changeset"

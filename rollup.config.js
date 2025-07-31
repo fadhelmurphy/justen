@@ -11,10 +11,7 @@ function getEntryFile(packagePath) {
 }
 
 function createConfig(packageName) {
-  const isWindows = process.platform === "win32";
-  const packagePath = isWindows
-  ? path.join(rootPackagesDir, packageName)
-  : path.resolve();
+  const packagePath = path.join(rootPackagesDir, packageName);
 
   if (!existsSync(packagePath)) {
     throw new Error(`Package folder "${packagePath}" does not exist.`);
