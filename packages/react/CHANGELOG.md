@@ -4,4 +4,4 @@
 
 ### Major Changes
 
-- coba release
+- coba release react
